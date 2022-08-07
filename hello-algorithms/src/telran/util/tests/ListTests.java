@@ -1,7 +1,6 @@
 package telran.util.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,18 +59,18 @@ abstract class ListTests extends CollectionTests {
 		assertEquals(-1, list.indexOf(-10));
 	}
 	
-	//TODO write rest three tests
-//	@Test
-//	void test() {
-//		Integer ar[] = new Integer[3];
-//		System.out.println(Arrays.toString(ar));
-//	}
-	
 	@Test	
 	void lastIndexOfTest() {
 		list.add(10);
 		assertEquals(list.size() - 1, list.lastIndexOf(10));
 		assertEquals(-1, list.lastIndexOf(-10));
+	}
+	
+	@Test
+	void reverseTest() {
+		Integer expected1[] = { 15, 40, 20, 13, -5, 10 };
+		list.reverse();
+		assertArrayEquals(expected1, list.toArray(new Integer[0]));
 	}
 
 }

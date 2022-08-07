@@ -71,26 +71,6 @@ private class ArrayListIterator implements Iterator<T> {
 		array[size] = null; //solution for preventing memory leak;
 	}
 
-//	@Override
-//	public boolean removeIf(Predicate<T> predicate) {
-//		int sizeOld = size;
-//		int i = 0;
-//		while (i < size) {
-//			if (predicate.test(array[i])) {
-//				removeByIndex(i);
-//			} else {
-//				i++;
-//			}
-//		}
-//		return sizeOld > size;
-//	}
-
-//	@Override
-//	public boolean contains(Object pattern) {
-//		
-//		return indexOf(pattern) >= 0;
-//	}
-
 	@Override
 	public int size() {
 		
@@ -172,7 +152,27 @@ private class ArrayListIterator implements Iterator<T> {
 		//predicate with O[N]
 		//bonus: with no additional array (playing with two indexes)
 		//take into consideration a possible memory leak (reference from index == size should be null's)
-		return false;
+		int sizeOld = size;
+		for(int i = 0, j = 0; i < sizeOld; i++) {
+			if(predicate.test(array[i])) {
+				size--;
+			} else {
+				j++;
+			}
+			array[j] = array[i];
+		}
+		for(int i = size; i < sizeOld; i++) {
+			array[i] = null;
+		}
+		return sizeOld > size;
 	}
-
+	@Override
+	public void reverse() {
+		T[] tmp = Arrays.copyOf(array, size);
+		for(int i = 0, j = tmp.length - 1; i < j; i++, j--) {
+			T tmpT = array[i];
+			array[i] = array[j];
+			array[j] = tmpT;
+		}
+	}
 }

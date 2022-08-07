@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.processor.core.AbstractConcurrentProcessor;
+
 public class LinkedList<T> implements List<T> {
 	private static class Node<T> {
 		T obj;
@@ -117,10 +119,6 @@ public class LinkedList<T> implements List<T> {
 		}
 		
 	}
-
-	
-
-	
 
 	@Override
 	public int size() {
@@ -253,7 +251,15 @@ public class LinkedList<T> implements List<T> {
 	 */
 	public void reverse() {
 		//TODO write implementation
-		//TODO write test (Think where there should be test for the method reverse)
+		Node<T> curLeft = head;
+		Node<T> curRigth = tail;
+		for(int left = 0, rigth = size -1; left < rigth; left++, rigth--) {
+			Node<T> tmp = new Node<T>(curLeft.obj);
+			curLeft.obj = curRigth.obj;
+			curLeft = curLeft.next;
+			curRigth.obj = tmp.obj;
+			curRigth = curRigth.prev;
+		}
 	}
-
+		//TODO write test (Think where there should be test for the method reverse)
 }
