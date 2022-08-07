@@ -13,6 +13,7 @@ abstract class ListTests extends CollectionTests {
 
 	List<Integer> list;
 	@BeforeEach
+	@Override
 	void setUp() throws Exception {
 		super.setUp(); // content of the collection is {10, -5, 13, 20, 40, 15} from the setup 
 		list = (List<Integer>)collection;
@@ -60,11 +61,11 @@ abstract class ListTests extends CollectionTests {
 	}
 	
 	//TODO write rest three tests
-	@Test
-	void test() {
-		Integer ar[] = new Integer[3];
-		System.out.println(Arrays.toString(ar));
-	}
+//	@Test
+//	void test() {
+//		Integer ar[] = new Integer[3];
+//		System.out.println(Arrays.toString(ar));
+//	}
 	
 	@Test	
 	void lastIndexOfTest() {

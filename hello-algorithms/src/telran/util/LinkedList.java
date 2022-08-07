@@ -1,6 +1,7 @@
 package telran.util;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 public class LinkedList<T> implements List<T> {
@@ -17,23 +18,45 @@ public class LinkedList<T> implements List<T> {
 	private int size;
 	
 	private class LinkedListIterator implements Iterator<T> {
-
+		Node<T> current = head;
+		boolean flNext = false;
 		@Override
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
-			return false;
+			
+			return current != null;
 		}
 
 		@Override
 		public T next() {
-			// TODO Auto-generated method stub
-			return null;
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			T res = current.obj;
+			current = current.next;
+			flNext = true;
+			return res;
+		}
+		@Override
+		public void remove() {
+			if (!flNext) {
+				throw new IllegalStateException();
+			}
+			if (current == null) {
+				removeNode(tail);
+			} else {
+				removeNode(current.prev);
+			}
+			flNext = false;
+			
 		}
 		
 	}
 
 	@Override
 	public boolean add(T obj) {
+		if (obj == null) {
+			throw new NullPointerException();
+		}
 		Node<T> newNode = new Node<>(obj);
 		if (head == null) {
 			head = tail = newNode;
@@ -48,21 +71,56 @@ public class LinkedList<T> implements List<T> {
 
 	@Override
 	public boolean remove(Object pattern) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean res = false;
+		int index = indexOf(pattern);
+		if (index >= 0) {
+			res = true;
+			Node<T> node = getNodeIndex(index);
+			removeNode(node);
+			
+		}
+		return res;
 	}
 
-	@Override
-	public boolean removeIf(Predicate<T> predicate) {
-		// TODO Auto-generated method stub
-		return false;
+	private void removeNode(Node<T> node) {
+		if(node == head) {
+			removeHead();
+		} else if(node == tail) {
+			removeTail();
+		} else {
+			removeNodeMiddle(node);
+		}
+		size--;
+		
 	}
 
-	@Override
-	public boolean contains(Object pattern) {
-		// TODO Auto-generated method stub
-		return false;
+	private void removeNodeMiddle(Node<T> node) {
+		Node<T> nodeAfter = node.next;
+		Node<T> nodeBefore = node.prev;
+		nodeBefore.next = nodeAfter;
+		nodeAfter.prev = nodeBefore;
+		
 	}
+
+	private void removeTail() {
+		tail = tail.prev;
+		tail.next = null;
+		
+	}
+
+	private void removeHead() {
+		if (head == tail) {
+			head = tail = null;
+		} else {
+			head = head.next;
+			head.prev = null;
+		}
+		
+	}
+
+	
+
+	
 
 	@Override
 	public int size() {
@@ -72,12 +130,15 @@ public class LinkedList<T> implements List<T> {
 
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return new LinkedListIterator();
 	}
 
 	@Override
 	public boolean add(int index, T obj) {
+		if (obj == null) {
+			throw new NullPointerException();
+		}
 		boolean res = false;
 		if (index >=0 && index <= size) {
 			res = true;
@@ -93,7 +154,6 @@ public class LinkedList<T> implements List<T> {
 	}
 
 	private void addIndex(int index, T obj) {
-		size++;
 		Node<T> newNode = new Node<>(obj);
 		Node<T> afterNode = getNodeIndex(index);
 		Node<T> beforeNode = afterNode.prev;
@@ -101,6 +161,7 @@ public class LinkedList<T> implements List<T> {
 		afterNode.prev = newNode;
 		beforeNode.next = newNode;
 		newNode.prev = beforeNode;
+		size++;
 		
 	}
 
@@ -142,20 +203,39 @@ public class LinkedList<T> implements List<T> {
 
 	@Override
 	public T remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		T res = null;
+		if (checkExistingIndex(index)) {
+			Node<T> node = getNodeIndex(index);
+			res = node.obj;
+			removeNode(node);
+		}
+		return res;
 	}
 
 	@Override
 	public int indexOf(Object pattern) {
-		// TODO Auto-generated method stub
-		return 0;
+		int res = -1;
+		int ind = 0;
+		for(Node<T> current = head; current != null; current = current.next, ind++) {
+			if (current.obj.equals(pattern)) {
+				res = ind;
+				break;
+			}
+		}
+		return res;
 	}
 
 	@Override
 	public int lastIndexOf(Object pattern) {
-		// TODO Auto-generated method stub
-		return 0;
+		int res = -1;
+		int ind = size - 1;
+		for(Node<T> current = tail; current != null; current = current.prev, ind--) {
+			if (current.obj.equals(pattern)) {
+				res = ind;
+				break;
+			}
+		}
+		return res;
 	}
 
 	@Override
@@ -166,6 +246,14 @@ public class LinkedList<T> implements List<T> {
 			res = node.obj;
 		}
 		return res;
+	}
+	/**
+	 * performs reversing of the objects order
+	 * current - {10, -5, 30} - after reverse - {30, -5. 10}
+	 */
+	public void reverse() {
+		//TODO write implementation
+		//TODO write test (Think where there should be test for the method reverse)
 	}
 
 }
