@@ -66,11 +66,4 @@ abstract class ListTests extends CollectionTests {
 		assertEquals(-1, list.lastIndexOf(-10));
 	}
 	
-	@Test
-	void reverseTest() {
-		Integer expected1[] = { 15, 40, 20, 13, -5, 10 };
-		list.reverse();
-		assertArrayEquals(expected1, list.toArray(new Integer[0]));
-	}
-
 }

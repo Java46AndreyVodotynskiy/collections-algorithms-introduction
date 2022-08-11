@@ -1,16 +1,14 @@
 package telran.util.tests;
 
-
-import telran.util.ArrayList;
 import telran.util.Collection;
+import telran.util.HashSet;
 
-public class ArrayListTests extends ListTests {
+public class HashSetTests extends SetTests {
 
 	@Override
 	protected Collection<Integer> createCollection() {
-		
-		return new ArrayList<>();
+
+		return new HashSet<>();
 	}
-	
 
 }

@@ -152,27 +152,30 @@ private class ArrayListIterator implements Iterator<T> {
 		//predicate with O[N]
 		//bonus: with no additional array (playing with two indexes)
 		//take into consideration a possible memory leak (reference from index == size should be null's)
-		int sizeOld = size;
-		for(int i = 0, j = 0; i < sizeOld; i++) {
-			if(predicate.test(array[i])) {
-				size--;
+		boolean res = false;
+		int indDestination = 0;
+		int sizeAfterDeletion = size;
+		for (int indSource = 0; indSource < size; indSource++) {
+			if (predicate.test(array[indSource])) {
+				sizeAfterDeletion--;
 			} else {
-				j++;
+				array[indDestination++] = array[indSource];
 			}
-			array[j] = array[i];
 		}
-		for(int i = size; i < sizeOld; i++) {
-			array[i] = null;
-		}
-		return sizeOld > size;
+		res = afterDeletionProcessing(sizeAfterDeletion);
+		return res;
 	}
-	@Override
-	public void reverse() {
-		T[] tmp = Arrays.copyOf(array, size);
-		for(int i = 0, j = tmp.length - 1; i < j; i++, j--) {
-			T tmpT = array[i];
-			array[i] = array[j];
-			array[j] = tmpT;
+	
+	private boolean afterDeletionProcessing(int sizeAfterDeletion) {
+		boolean res = false;
+		if (sizeAfterDeletion < size) {
+			res = true;
+			for (int i = sizeAfterDeletion; i < size; i++) {
+				array[i] = null;
+			}
+			size = sizeAfterDeletion;
 		}
+		return res;
 	}
+
 }

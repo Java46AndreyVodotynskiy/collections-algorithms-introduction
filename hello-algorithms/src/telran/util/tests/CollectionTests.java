@@ -11,10 +11,13 @@ import org.junit.jupiter.api.Test;
 
 import telran.util.AllFalsePredicate;
 import telran.util.Collection;
+import telran.util.EvenNumbersPredicate;
 
 abstract class CollectionTests {
 	protected static final int N_NUMBERS = 10000;
+	protected static final int N_RUNDOM_NUMBERS = 100;
 	private static final int N_RUNS = 10000;
+	private static final int N_RUNDOM_RUNS = 10;
 	protected Collection<Integer> collection;
 
 	protected abstract Collection<Integer> createCollection();
@@ -58,10 +61,28 @@ abstract class CollectionTests {
 	@Test
 	void removeIfTest() {
 		Predicate<Integer> allFalsePredicate = new AllFalsePredicate();
+		
 		assertFalse(collection.removeIf(allFalsePredicate));
 		assertEquals(expected.length, collection.size());
+		
+		//even numbers removed test
+		for (int i = 0; i < N_RUNDOM_RUNS; i++) {
+			filRandomCollection();
+			collection.removeIf(new EvenNumbersPredicate());
+			for(int num : collection) {
+				assertTrue(num % 2 == 1);
+			}
+		}
 		assertTrue(collection.removeIf(allFalsePredicate.negate()));
 		assertEquals(0, collection.size());
+	}
+
+	private void filRandomCollection() {
+		collection = createCollection();
+		for (int i = 0; i < N_RUNDOM_NUMBERS; i++) {
+			collection.add((int) (Math.random() * Integer.MAX_VALUE));
+		}
+		
 	}
 
 	@Test
