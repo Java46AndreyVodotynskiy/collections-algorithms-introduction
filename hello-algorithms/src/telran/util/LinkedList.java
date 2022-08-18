@@ -2,9 +2,6 @@ package telran.util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.function.Predicate;
-
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.processor.core.AbstractConcurrentProcessor;
 
 public class LinkedList<T> implements List<T> {
 	private static class Node<T> {
@@ -119,6 +116,10 @@ public class LinkedList<T> implements List<T> {
 		}
 		
 	}
+
+	
+
+	
 
 	@Override
 	public int size() {
@@ -250,14 +251,23 @@ public class LinkedList<T> implements List<T> {
 	 * current - {10, -5, 30} - after reverse - {30, -5. 10}
 	 */
 	public void reverse() {
-		int limit = size / 2 ;
+		//TODO
+		//no cycles allowed
 		Node<T> forwardCurrent = head;
 		Node<T> backwardCurrent = tail;
-		for (int i = 0; i < limit; i++, forwardCurrent = forwardCurrent.next,
-			backwardCurrent = backwardCurrent.prev) {
+		reverse(forwardCurrent, backwardCurrent);
+		
+
+	}
+
+	private Node<T> reverse(Node<T> forwardCurrent, Node<T> backwardCurrent) {
+		if(forwardCurrent.prev == backwardCurrent || forwardCurrent == backwardCurrent) {
+			return null;
+		}
 			T tmp = forwardCurrent.obj;
 			forwardCurrent.obj = backwardCurrent.obj;
 			backwardCurrent.obj = tmp;
-			}
+		return reverse(forwardCurrent = forwardCurrent.next, backwardCurrent = backwardCurrent.prev);
 	}
+		
 }
