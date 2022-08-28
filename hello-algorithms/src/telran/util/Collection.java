@@ -7,17 +7,19 @@ import java.util.function.Predicate;
 public interface Collection<T> extends Iterable<T> {
 	boolean add(T obj);
 	boolean remove(Object pattern);
+	
 	default boolean removeIf(Predicate<T> predicate) {
-		int sizeOld = size();
+		int sizeOld =size();
 		Iterator<T> it = iterator();
 		while(it.hasNext()) {
 			T obj = it.next();
-			if(predicate.test(obj)) {
-				remove(obj);
+			if (predicate.test(obj)) {
+				it.remove();
 			}
 		}
 		return sizeOld > size();
 	}
+	
 	boolean contains(Object predicate);
 	int size();
 	default T[] toArray(T[] ar) {

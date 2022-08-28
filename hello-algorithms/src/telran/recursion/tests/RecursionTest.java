@@ -30,10 +30,8 @@ int count = 0;
 	
 	@Test
 	void squareTest() {
-		assertEquals(16, square(4));
-		assertEquals(81, square(9));
-		assertEquals(625, square(25));
-		assertEquals(-625, square(-25));
+		assertEquals(100, square(10));
+		assertEquals(100, square(-10));
 	}
 	
 //	private void f() {

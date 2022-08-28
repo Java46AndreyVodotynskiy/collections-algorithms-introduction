@@ -3,10 +3,10 @@ package telran.util;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.function.Predicate;
-public class ArrayList<T> implements List<T> {
+public class ArrayList<T> extends AbstractCollection<T> implements List<T> {
 private static final int DEFAULT_CAPACITY = 16;
 private T[] array;
-private int size;
+
 @SuppressWarnings("unchecked")
 public ArrayList(int capacity) {
 	array = (T[]) new Object[capacity];
@@ -72,12 +72,6 @@ private class ArrayListIterator implements Iterator<T> {
 	}
 
 	@Override
-	public int size() {
-		
-		return size;
-	}
-
-	@Override
 	public Iterator<T> iterator() {
 		
 		return new ArrayListIterator();
@@ -111,21 +105,6 @@ private class ArrayListIterator implements Iterator<T> {
 		return res;
 	}
 
-	private boolean checkExistingIndex(int index) {
-		
-		return index >= 0 && index < size;
-	}
-	@Override
-	public int indexOf(Object pattern) {
-		int res = -1;
-		for(int i = 0; i < size; i++) {
-			if (array[i].equals(pattern)) {
-				res = i;
-				break;
-			}
-		}
-		return res;
-	}
 
 	@Override
 	public int lastIndexOf(Object pattern) {
@@ -144,14 +123,14 @@ private class ArrayListIterator implements Iterator<T> {
 		
 		return checkExistingIndex(index) ? array[index] : null;
 	}
-	
 	@Override
 	public boolean removeIf (Predicate<T> predicate) {
-		//TODO
+		
 		//Write the method for removing all objects matching the given 
 		//predicate with O[N]
 		//bonus: with no additional array (playing with two indexes)
-		//take into consideration a possible memory leak (reference from index == size should be null's)
+		//take into consideration a possible memory leak 
+		//(reference from index == size should be null's)
 		boolean res = false;
 		int indDestination = 0;
 		int sizeAfterDeletion = size;
