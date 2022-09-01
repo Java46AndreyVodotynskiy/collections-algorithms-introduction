@@ -48,7 +48,7 @@ public class StandardTreeSet<T> implements SortedSet<T> {
 	}
 
 	@Override
-	public T ceilling(T pattern) {
+	public T ceiling(T pattern) {
 		
 		return treeSet.ceiling(pattern);
 	}

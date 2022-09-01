@@ -13,7 +13,7 @@ public interface SortedSet<T> extends Set<T> {
 	 */
 	T last();
 	
-	T ceilling(T pattern);
+	T ceiling(T pattern);
 	
 	T floor(T pattern);
 }

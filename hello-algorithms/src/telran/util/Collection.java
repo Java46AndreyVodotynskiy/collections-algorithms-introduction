@@ -3,6 +3,8 @@ package telran.util;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public interface Collection<T> extends Iterable<T> {
 	boolean add(T obj);
@@ -46,4 +48,21 @@ public interface Collection<T> extends Iterable<T> {
 		// reference to the same array will be returned
 		return ar;
 	}
+	
+	default Stream<T> stream() {
+		return StreamSupport.stream(spliterator(), false);
+	}
+	
+	default void clean() {
+		removeIf(n -> true);
+	}
+	
+	default T[] toShuffleArray(T[] array) {
+		final T[] arraySh = toArray(array);
+		//shuffling means random order of the array elements
+		//TODO shuffling of arraySH
+		//apply stream one code line. Hint: see SportLoto application
+		return arraySh;
+	}
+	
 }

@@ -364,36 +364,36 @@ public class TreeSet<T> extends AbstractCollection<T> implements SortedSet<T> {
 
 
 	@Override
-	public T floor(T pattern) {
-		Node<T> current = root;
-		Node<T> parent = null;
-		int compRes = 0;
-		while (current != null) {
-			parent = current;
-			compRes = comp.compare(pattern, current.obj);
-			if (compRes == 0 || compRes > 0) {
-				return parent.right != null ? parent.right.obj : parent.obj;
-			}
-			current = compRes > 0 ? current.right : current.left;
+	public T ceiling(T pattern) {
+		if (root == null) {
+			return null;
 		}
-		return null;
+		Node<T> node = getNodeOrParent(pattern);
+		
+		int compRes = comp.compare(pattern, node.obj);
+		if (compRes != 0) {
+			node = compRes > 0 ? getGreaterParent(node) : node;
+		}
+		return node == null ? null : node.obj;
 	}
-
 
 	@Override
-	public T ceilling(T pattern) {
-		Node<T> current = root;
-		Node<T> parent = null;
-		int compRes = 0;
-		while (current != null) {
-			parent = current;
-			compRes = comp.compare(pattern, current.obj);
-			if (compRes == 0 || compRes < 0) {
-				return parent.left != null ? parent.left.obj : parent.obj;
-			}
-			current = compRes > 0 ? current.right : current.left;
+	public T floor(T pattern) {
+		if (root == null) {
+			return null;
 		}
-		return null;
+		Node<T> node = getNodeOrParent(pattern);
+		int compRes = comp.compare(pattern, node.obj);
+		if (compRes != 0) {
+			node = compRes < 0 ? getLessParent(node) : node;
+		}
+		return node == null ? null : node.obj;
 	}
 
+	private Node<T> getLessParent(Node<T> node) {
+		while (node.parent != null && node.parent.right != node) {
+			node = node.parent;
+		}
+		return node.parent;
+	}
 }

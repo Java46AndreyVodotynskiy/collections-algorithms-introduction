@@ -26,11 +26,11 @@ public abstract class SortedSetTests extends SetTests {
 	
 	@Test
 	void ceillingTest() {
-		assertEquals((Integer)40, ((SortedSet<Integer>)collection).ceilling(40));
-		assertEquals((Integer)40, ((SortedSet<Integer>)collection).ceilling(35));
-		assertEquals((Integer)15, ((SortedSet<Integer>)collection).ceilling(14));
+		assertEquals((Integer)40, ((SortedSet<Integer>)collection).ceiling(40));
+		assertEquals((Integer)40, ((SortedSet<Integer>)collection).ceiling(35));
+		assertEquals((Integer)15, ((SortedSet<Integer>)collection).ceiling(14));
 		
-		assertNull(((SortedSet<Integer>)collection).ceilling(41));
+		assertNull(((SortedSet<Integer>)collection).ceiling(41));
 	}
 	
 	@Test
